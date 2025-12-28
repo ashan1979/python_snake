@@ -30,7 +30,9 @@ def save_high_scores(new_score):
 #--- CONSTANTS ---
 GAME_WIDTH = 500
 GAME_HEIGHT = 500
-SPEED = 120
+INITIAL_SPEED = 120
+MIN_SPEED = 50
+SPEED_INCREMENT = 3
 SPACE_SIZE = 25
 BODY_PARTS = 3
 SNAKE_COLOR = "#22FF00"
@@ -64,7 +66,7 @@ class Food:
 
 
 def next_turn(snake, food):
-    global direction_changed
+    global direction_changed, score, current_speed
     direction_changed = False
 
     x, y = snake.coordinates[0]
@@ -90,6 +92,10 @@ def next_turn(snake, food):
         global score
         score += 1
 
+        #-- DIFFICULTY SCALING
+        if current_speed > MIN_SPEED:
+            current_speed -= SPEED_INCREMENT
+
         canvas.itemconfig(score_text, text="Score: {}".format(score))
         canvas.delete("food")
         food = Food()
@@ -101,7 +107,7 @@ def next_turn(snake, food):
         save_high_scores(score)
         game_over()
     else:
-        window.after(SPEED, next_turn, snake, food)
+        window.after(current_speed, next_turn, snake, food)
 
 def change_direction(new_direction):
     global direction
@@ -139,17 +145,20 @@ def game_over():
     window.bind('<space>', lambda event: restart_game())
 
 def restart_game():
-    global snake, food, score, direction, score_text
+    global snake, food, score, direction, score_text, current_speed
     canvas.delete(ALL)
+    window.unbind('<space>')
 
-    current_high = get_high_score()
+    score = 0
+    current_speed = INITIAL_SPEED
+    direction = "down"
+
 
     score_text = canvas.create_text(10, 10, anchor="nw", text="Score: 0", fill="white", font=("consolas", 20))
-    high_score_text = canvas.create_text(GAME_WIDTH + 30, 10, anchor="ne", text=f"High_Score: {high_score}", fill="yellow", font=("consolas", 20))
+    current_high = get_high_score()
+    canvas.create_text(GAME_WIDTH + 30, 10, anchor="ne", text=f"High: {current_high}", fill="yellow", font=("consolas", 20))
     snake = Snake()
     food = Food()
-    score = 0
-    direction = 'down'
     next_turn(snake, food)
 
 window = Tk()
@@ -159,6 +168,7 @@ window.resizable(False, False)
 window.configure(bg=BACKGROUND_COLOR)
 
 score = 0
+current_speed = INITIAL_SPEED
 direction = 'down'
 direction_changed = False
 
@@ -171,9 +181,10 @@ canvas = Canvas(window, bg=BACKGROUND_COLOR,
 canvas.pack(padx=20, pady=20)
 
 score_text = canvas.create_text(10, 10, anchor="nw", text="Score: 0", fill="white", font=("consolas", 20))
+high_score_val = get_high_score()
+canvas.create_text(GAME_WIDTH - 10, 10, anchor="ne", text=f"High: {high_score_val}", fill="yellow", font=("consolas", 20))
 
 window.update()
-
 window_width = window.winfo_width()
 window_height = window.winfo_height()
 
