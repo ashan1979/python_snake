@@ -66,6 +66,8 @@ class Food:
 
 
 def next_turn(snake, food):
+    if paused:
+        return
     global direction_changed, score, current_speed
     direction_changed = False
 
@@ -91,6 +93,11 @@ def next_turn(snake, food):
     if x == food.coordinates[0] and y == food.coordinates[1]:
         global score
         score += 1
+
+        # -- Live High Score Update
+        current_high = get_high_score()
+        if score > current_high:
+            canvas.itemconfig("h_score", text=f"high: {score}")
 
         #-- DIFFICULTY SCALING
         if current_speed > MIN_SPEED:
@@ -127,6 +134,15 @@ def change_direction(new_direction):
             direction = new_direction
             direction_changed = True
 
+def toggle_pause():
+    global paused
+    paused = not paused
+    if not paused:
+        canvas.delete("paused_text")
+        next_turn(snake, food)
+    else:
+        canvas.create_text(GAME_WIDTH/2, GAME_HEIGHT/2, text="PAUSED", fill="white", font=("consolas", 50), tag="paused_text")
+
 def check_collisions(snake):
     x, y = snake.coordinates[0]
 
@@ -156,7 +172,7 @@ def restart_game():
 
     score_text = canvas.create_text(10, 10, anchor="nw", text="Score: 0", fill="white", font=("consolas", 20))
     current_high = get_high_score()
-    canvas.create_text(GAME_WIDTH + 30, 10, anchor="ne", text=f"High: {current_high}", fill="yellow", font=("consolas", 20))
+    canvas.create_text(GAME_WIDTH - 1, 10, anchor="ne", text=f"High: {current_high}", fill="yellow", font=("consolas", 20), tag="h_score")
     snake = Snake()
     food = Food()
     next_turn(snake, food)
@@ -167,10 +183,12 @@ window.title("Snake Game")
 window.resizable(False, False)
 window.configure(bg=BACKGROUND_COLOR)
 
+# -- GAME STATE GLOBALS
 score = 0
 current_speed = INITIAL_SPEED
 direction = 'down'
 direction_changed = False
+paused = False
 
 
 
@@ -182,7 +200,7 @@ canvas.pack(padx=20, pady=20)
 
 score_text = canvas.create_text(10, 10, anchor="nw", text="Score: 0", fill="white", font=("consolas", 20))
 high_score_val = get_high_score()
-canvas.create_text(GAME_WIDTH - 10, 10, anchor="ne", text=f"High: {high_score_val}", fill="yellow", font=("consolas", 20))
+canvas.create_text(GAME_WIDTH - 10, 10, anchor="ne", text=f"High: {get_high_score()}", fill="yellow", font=("consolas", 20), tag="h_score")
 
 window.update()
 window_width = window.winfo_width()
@@ -203,6 +221,7 @@ window.bind('<Left>', lambda event: change_direction('left'))
 window.bind('<Right>', lambda event: change_direction('right'))
 window.bind('<Up>', lambda event: change_direction('up'))
 window.bind('<Down>', lambda event: change_direction('down'))
+window.bind('<p>', lambda event: toggle_pause())
 
 next_turn(snake, food)
 

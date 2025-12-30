@@ -82,6 +82,7 @@
       <workItem from="1766678582438" duration="72000" />
       <workItem from="1766770624407" duration="7000000" />
       <workItem from="1766942734872" duration="2577000" />
+      <workItem from="1767074524258" duration="2221000" />
     </task>
     <task id="LOCAL-00001" summary="testing this sh@@ i've completely forgotten how to work with git and pycharm is totally new to me">
       <option name="closed" value="true" />
@@ -109,19 +110,8 @@
     <MESSAGE value="testing this sh@@ i've completely forgotten how to work with git and pycharm is totally new to me" />
     <option name="LAST_COMMIT_MESSAGE" value="testing this sh@@ i've completely forgotten how to work with git and pycharm is totally new to me" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/snake.py</url>
-          <line>163</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PythonProject$snake.coverage" NAME="snake Coverage Results" MODIFIED="1766944991436" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonProject$snake.coverage" NAME="snake Coverage Results" MODIFIED="1767076731911" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PythonProject$main.coverage" NAME="main Coverage Results" MODIFIED="1766656836136" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
